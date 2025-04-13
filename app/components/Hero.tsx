@@ -41,7 +41,7 @@ const Hero = () => {
     {
       type: "Luxury Property",
       image: {
-        src: "/images/unity.jpg",
+        src: "/images/unity 1.jpg",
         blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q==",
       },
       description: "Soraj stands for exceptional luxury properties and single properties in the most sought-after districts of the city. Turning homes become dreams as your go-to real estate agent. You can rely on us to help you safely home."
@@ -67,19 +67,34 @@ const Hero = () => {
   useEffect(() => {
     setIsMounted(true);
 
-    // Preload all images
+    // Improved image preloading with caching
     const preloadImages = () => {
+      // Create a cache to store preloaded images
+      const imageCache = new Map<string, HTMLImageElement>();
+      
+      // Preload background images
       backgroundImages.forEach(img => {
-        const image = document.createElement('img');
-        image.src = img.src;
+        if (!imageCache.has(img.src)) {
+          const image = new window.Image();
+          image.src = img.src;
+          imageCache.set(img.src, image);
+        }
       });
+      
+      // Preload property type images
       propertyTypes.forEach(type => {
-        const image = document.createElement('img');
-        image.src = type.image.src;
+        if (!imageCache.has(type.image.src)) {
+          const image = new window.Image();
+          image.src = type.image.src;
+          imageCache.set(type.image.src, image);
+        }
       });
+      
+      return imageCache;
     };
 
-    preloadImages();
+    // Initialize image cache
+    const imageCache = preloadImages();
 
     // Automatically change background image every 5 seconds
     const bgInterval = setInterval(() => {
@@ -232,6 +247,7 @@ const Hero = () => {
                   objectFit: "cover",
                   transform: "scale(1.02)"
                 }}
+                loading={index === 0 ? "eager" : "lazy"}
               />
             </div>
           ))}

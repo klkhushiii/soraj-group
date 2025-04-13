@@ -101,7 +101,7 @@ const ServicesSection = () => {
                   </p>
                   <div className="h-52 w-full relative rounded-xl overflow-hidden group-hover:shadow-lg transition-all duration-300">
                     <Image 
-                      src="/images/unity.jpg" 
+                      src="/images/unity 1.jpg" 
                       alt="Safety & Trustworthy" 
                       fill 
                       style={{ objectFit: 'cover', objectPosition: 'center 25%' }} 
