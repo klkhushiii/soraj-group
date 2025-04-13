@@ -115,6 +115,7 @@ const ProjectsSection = () => {
                 ? 'bg-[#1e293b] text-white shadow-lg'
                 : 'bg-gray-100 text-gray-600 hover:bg-[#1e293b] hover:text-white'
               }`}
+              suppressHydrationWarning
             >
               {city}
             </button>

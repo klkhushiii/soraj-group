@@ -244,6 +244,7 @@ const TestimonialSection = () => {
                 index === currentIndex ? 'bg-gray-800 w-4' : 'bg-gray-300'
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
+              suppressHydrationWarning
             />
           ))}
         </div>
