@@ -1,0 +1,66 @@
+/* This file contains global styles for the Emaar website clone */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #000000;
+  --background: #ffffff;
+  --primary: #000000;
+  --secondary: #f0f0f0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #ffffff;
+    --background: #000000;
+  }
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+.hero-carousel .control-dots {
+  bottom: 30px !important;
+}
+
+.hero-carousel .control-dots .dot {
+  width: 12px !important;
+  height: 12px !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: none !important;
+  opacity: 0.7 !important;
+}
+
+.hero-carousel .control-dots .dot.selected {
+  background: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Fix for Next.js Image */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Custom font classes */
+.font-poppins {
+  font-family: var(--font-poppins), sans-serif;
+}
