@@ -40,7 +40,7 @@ const CounterItem: React.FC<CounterItemProps> = ({ end, label, suffix = "+" }) =
   return (
     <div ref={ref} className="flex flex-col items-center">
       <motion.h3 
-        className="text-4xl font-bold mb-2 text-gray-800"
+        className="text-[28px] sm:text-4xl font-bold mb-1 sm:mb-2 text-[#1e293b]"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
@@ -48,7 +48,7 @@ const CounterItem: React.FC<CounterItemProps> = ({ end, label, suffix = "+" }) =
         {count}{suffix}
       </motion.h3>
       <motion.p 
-        className="text-base uppercase tracking-wider text-gray-600 font-medium"
+        className="text-sm sm:text-base uppercase tracking-wider text-[#1e293b]/80 font-medium"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -61,9 +61,9 @@ const CounterItem: React.FC<CounterItemProps> = ({ end, label, suffix = "+" }) =
 
 const CounterSection = () => {
   return (
-    <section className="py-16 bg-[#cbd5d8]">
+    <section className="py-12 sm:py-16 bg-[#cbd5d8]">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 sm:gap-10 text-center max-w-xs sm:max-w-none mx-auto">
           <CounterItem end={850} label="ELEGANT APARTMENTS" />
           <CounterItem end={950} label="LUXURY HOUSES" />
           <CounterItem end={18} label="SATISFIED GUESTS" suffix="K+" />

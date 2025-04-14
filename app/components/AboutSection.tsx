@@ -11,12 +11,83 @@ const AboutSection = () => {
 
   return (
     <>
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
+      <section className="py-20 bg-white overflow-x-hidden">
+        <div className="container mx-auto px-4 max-w-full">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
             {/* Left side - Image collage */}
-            <div className="lg:w-1/2 relative">
-              <div className="relative flex items-center justify-center h-[500px]">
+            <div className="w-full lg:w-1/2 relative">
+              {/* Mobile Layout */}
+              <div className="block lg:hidden w-full">
+                <div className="flex flex-col gap-2">
+                  {/* Main top image container */}
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden">
+                    <Image 
+                      src="/images/unity 1.jpg" 
+                      alt="Unity 1 property by Soraj Group" 
+                      fill 
+                      className="object-cover"
+                    />
+                    {/* Circular button overlay for mobile */}
+                    <div className="absolute top-6 left-6 z-20">
+                      <div className="relative group">
+                        {/* Multiple pulsing background rings */}
+                        <div className="absolute inset-0 rounded-full bg-white/50 scale-125 animate-pulse-slow"></div>
+                        <div className="absolute inset-0 rounded-full bg-white/40 scale-150 animate-pulse-slow animation-delay-1000"></div>
+                        <div className="absolute inset-0 rounded-full bg-white/30 scale-175 animate-pulse-slow animation-delay-2000"></div>
+                        
+                        {/* Circle with play button */}
+                        <div className="relative w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer shadow-md transition duration-300 hover:scale-105">
+                          <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[16px] border-l-black border-b-[8px] border-b-transparent ml-1"></div>
+                        </div>
+                        
+                        {/* Spinning circular text */}
+                        <div className="absolute -inset-8 w-[128px] h-[128px] animate-spin-slow">
+                          <svg viewBox="0 0 100 100" className="w-full h-full">
+                            <defs>
+                              <path
+                                id="mobileCirclePath"
+                                d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                                fill="none"
+                              />
+                            </defs>
+                            <text fontSize="6" letterSpacing="1" className="uppercase" fill="white">
+                              <textPath href="#mobileCirclePath" startOffset="0%">
+                                SORAJ GROUP * QUALITY YOU TRUST, EXCELLENCE YOU DESERVE *
+                              </textPath>
+                            </text>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Bottom two images container */}
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="relative aspect-square rounded-2xl overflow-hidden">
+                      <Image 
+                        src="/images/boho bliss.jpg" 
+                        alt="Boho Bliss property" 
+                        fill 
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="relative aspect-square rounded-2xl overflow-hidden">
+                      <Image 
+                        src="/images/shekhar.jpg" 
+                        alt="Shekhar property" 
+                        fill 
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* About Us label for mobile */}
+                <div className="mt-4 inline-block pb-1 border-b-2 border-gray-300 text-sm font-medium">
+                  About Us
+                </div>
+              </div>
+
+              {/* Desktop Layout */}
+              <div className="hidden lg:flex relative items-center justify-center h-[500px] max-w-full">
                 {/* Top left image */}
                 <motion.div 
                   className="absolute -left-4 top-0 w-[220px] h-[160px] rounded-lg overflow-hidden shadow-md z-20"
@@ -65,20 +136,17 @@ const AboutSection = () => {
                   />
                 </motion.div>
                 
-                {/* Video button with pulse and spinning text */}
+                {/* Video button with pulse and spinning text - Desktop */}
                 <div className="absolute left-12 top-1/2 -translate-y-1/2 z-20">
                   <div className="relative group">
-                    {/* Multiple pulsing background rings */}
                     <div className="absolute inset-0 rounded-full bg-white/50 scale-125 animate-pulse-slow"></div>
                     <div className="absolute inset-0 rounded-full bg-white/40 scale-150 animate-pulse-slow animation-delay-1000"></div>
                     <div className="absolute inset-0 rounded-full bg-white/30 scale-175 animate-pulse-slow animation-delay-2000"></div>
                     
-                    {/* Circle with play button */}
                     <div className="relative w-20 h-20 bg-white rounded-full flex items-center justify-center cursor-pointer shadow-md transition duration-300 hover:scale-105">
                       <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[16px] border-l-black border-b-[8px] border-b-transparent ml-1"></div>
                     </div>
                     
-                    {/* Spinning circular text */}
                     <div className="absolute -inset-10 w-[160px] h-[160px] animate-spin-slow">
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <defs>
@@ -101,7 +169,7 @@ const AboutSection = () => {
             </div>
             
             {/* Right side - Text content */}
-            <div className="lg:w-1/2">
+            <div className="w-full lg:w-1/2 px-4 lg:px-0">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

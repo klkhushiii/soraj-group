@@ -10,10 +10,12 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Emaar Properties - Premium Properties in Dubai",
-  description: "Emaar Properties - Discover luxury properties, apartments, villas, and townhouses in Dubai's most desirable communities.",
+  title: "Soraj Group - Premium Properties in India",
+  description: "Soraj Group - Discover luxury properties, apartments, villas, and residential spaces in India's most desirable communities.",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon-logo.jpg',
+    apple: '/favicon-logo.jpg',
+    shortcut: '/favicon-logo.jpg',
   },
 };
 
