@@ -80,10 +80,6 @@ const AboutSection = () => {
                     </div>
                   </div>
                 </div>
-                {/* About Us label for mobile */}
-                <div className="mt-4 inline-block pb-1 border-b-2 border-gray-300 text-sm font-medium">
-                  About Us
-                </div>
               </div>
 
               {/* Desktop Layout */}
@@ -177,7 +173,7 @@ const AboutSection = () => {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div className="inline-block pb-1 border-b-2 border-gray-300 text-sm font-medium">
+                <div className="inline-block pt-1 pb-1 border-y-2 sm:border-y-0 sm:border-b-2 border-gray-300 text-sm font-medium text-gray-900 tracking-wide">
                   About Us
                 </div>
                 

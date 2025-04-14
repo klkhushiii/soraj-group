@@ -65,14 +65,10 @@ const TestimonialSection = () => {
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl">
         {/* Section Header */}
         <div className="mb-8 sm:mb-12 md:mb-20">
-          <div className="flex flex-col space-y-1.5 sm:space-y-2 mb-3 sm:mb-4 md:mb-6">
-            <div className="w-6 sm:w-8 h-0.5 bg-gray-400"></div>
-            <div className="text-[10px] sm:text-xs font-medium text-gray-400 py-0.5 sm:py-1">
-              Testimonial
-            </div>
-            <div className="w-6 sm:w-8 h-0.5 bg-gray-400"></div>
+          <div className="inline-block pt-1 pb-1 border-y-2 sm:border-y-0 sm:border-b-2 border-gray-300 text-sm font-medium text-gray-900 tracking-wide mb-6">
+            Testimonial
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-[2.75rem] font-bold text-black mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-2xl md:text-[2.75rem] font-bold text-black">
             What Our Clients Say
           </h2>
         </div>

@@ -96,13 +96,12 @@ const Hero = () => {
     // Initialize image cache
     const imageCache = preloadImages();
 
-    // Automatically change background image every 5 seconds
-    const bgInterval = setInterval(() => {
+    // Synchronized interval for all animations (5 seconds)
+    const interval = setInterval(() => {
+      // Change background image
       setCurrentBgIndex((prevIndex) => (prevIndex + 1) % backgroundImages.length);
-    }, 5000);
-
-    // Automatically change property type every 4 seconds
-    const propertyInterval = setInterval(() => {
+      
+      // Change property type with animation
       setSlideDirection('left');
       setIsSliding(true);
       setTimeout(() => {
@@ -111,11 +110,10 @@ const Hero = () => {
           setIsSliding(false);
         }, 50);
       }, 500);
-    }, 4000);
+    }, 5000);
 
     return () => {
-      clearInterval(bgInterval);
-      clearInterval(propertyInterval);
+      clearInterval(interval);
     };
   }, []);
 
@@ -288,7 +286,7 @@ const Hero = () => {
                       <button 
                         onClick={prevProperty}
                         suppressHydrationWarning
-                        className="absolute -left-1 sm:-left-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
+                        className="absolute left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
                       >
                         ←
                       </button>
@@ -310,7 +308,7 @@ const Hero = () => {
                               <div 
                                 className={`rounded-xl overflow-hidden transition-all duration-700 shadow-sm ${
                                   isCentered ? 'opacity-100' : 'opacity-50'
-                                } w-[100px]`}
+                                } w-[120px] sm:w-[100px]`}
                                 style={{ transform: isCentered ? 'scale(1.1)' : 'scale(0.95)' }}
                               >
                                 <p className="text-gray-700 text-[10px] font-medium py-1.5 px-2 flex items-center justify-center truncate bg-white/80">
@@ -346,7 +344,7 @@ const Hero = () => {
                       <button 
                         onClick={nextProperty}
                         suppressHydrationWarning
-                        className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
+                        className="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
                       >
                         →
                       </button>

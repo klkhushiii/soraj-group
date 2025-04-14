@@ -125,15 +125,11 @@ const ServicesSection = () => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <div className="flex flex-col space-y-1 mb-4">
-                  <div className="w-8 h-0.5 bg-gray-500"></div>
-                  <div className="text-xs font-medium text-gray-800">
-                    Services
-                  </div>
-                  <div className="w-8 h-0.5 bg-gray-500"></div>
+                <div className="inline-block pt-1 pb-1 border-y-2 sm:border-y-0 sm:border-b-2 border-gray-300 text-sm font-medium text-gray-900 tracking-wide">
+                  Services
                 </div>
                 
-                <h2 className="text-4xl font-medium text-gray-900 mb-6">Your Best Possible Solutions</h2>
+                <h2 className="text-4xl font-medium text-gray-900 mb-6 mt-6">Your Best Possible Solutions</h2>
                 
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <p className="text-gray-600 max-w-2xl">
