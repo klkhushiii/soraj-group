@@ -230,7 +230,7 @@ const Hero = () => {
           {backgroundImages.map((image, index) => (
             <div 
               key={index} 
-              className={`absolute inset-0 transition-opacity duration-1000 ${index === currentBgIndex ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentBgIndex ? 'opacity-100' : 'opacity-0'}`}
             >
               <Image
                 src={image.src}
@@ -243,13 +243,15 @@ const Hero = () => {
                 sizes="100vw"
                 style={{ 
                   objectFit: "cover",
-                  transform: "scale(1.02)"
+                  transform: "scale(1.02)",
+                  transition: "all 1s ease-in-out"
                 }}
+                className="animate-fadeIn"
                 loading={index === 0 ? "eager" : "lazy"}
               />
             </div>
           ))}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/40 animate-fadeIn"></div>
         </div>
         
         {/* Main Content */}
@@ -258,12 +260,15 @@ const Hero = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="flex-1 flex flex-col justify-start items-center sm:block sm:max-w-2xl sm:mt-16"
             >
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 onClick={() => setShowContactForm(true)}
                 className="mt-32 sm:mt-8 mb-4 sm:mb-0 border border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full hover:bg-white hover:text-black transition sm:transform-none text-sm sm:text-base"
               >
@@ -275,7 +280,12 @@ const Hero = () => {
         
         {/* Property Type Slider */}
         {isMounted && (
-          <div className="absolute bottom-[2%] sm:bottom-16 left-0 w-full z-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="absolute bottom-[2%] sm:bottom-16 left-0 w-full z-20"
+          >
             <div className="container mx-auto px-3 sm:px-4 flex flex-col sm:flex-row justify-center items-center sm:items-start">
               {/* Mobile Image Carousel - Outside Container */}
               <div className="block sm:hidden w-full max-w-[95%] mb-8">
@@ -286,7 +296,7 @@ const Hero = () => {
                       <button 
                         onClick={prevProperty}
                         suppressHydrationWarning
-                        className="absolute left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
+                        className="absolute left-14 sm:-left-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
                       >
                         ←
                       </button>
@@ -306,8 +316,8 @@ const Hero = () => {
                               }`}
                             >
                               <div 
-                                className={`rounded-xl overflow-hidden transition-all duration-700 shadow-sm ${
-                                  isCentered ? 'opacity-100' : 'opacity-50'
+                                className={`rounded-xl overflow-hidden transition-all duration-700 ease-in-out ${
+                                  isCentered ? 'opacity-100 scale-100' : 'opacity-50 scale-95'
                                 } w-[120px] sm:w-[100px]`}
                                 style={{ transform: isCentered ? 'scale(1.1)' : 'scale(0.95)' }}
                               >
@@ -344,7 +354,7 @@ const Hero = () => {
                       <button 
                         onClick={nextProperty}
                         suppressHydrationWarning
-                        className="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
+                        className="absolute right-12 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
                       >
                         →
                       </button>
@@ -421,7 +431,7 @@ const Hero = () => {
                       <button 
                         onClick={nextProperty}
                         suppressHydrationWarning
-                        className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
+                        className="absolute right-12 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
                       >
                         →
                       </button>
@@ -430,7 +440,7 @@ const Hero = () => {
                   
                   {/* Mobile Description Box */}
                   <div className="block sm:hidden px-4 py-5">
-                    <div className="text-white text-xs leading-relaxed mb-8">
+                    <div className="text-white text-xs leading-relaxed mb-8 transition-all duration-700 ease-in-out">
                       {propertyTypes[currentPropertyIndex].description}
                     </div>
                     
@@ -519,7 +529,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
       </section>
 
