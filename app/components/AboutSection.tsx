@@ -12,7 +12,7 @@ const AboutSection = () => {
   return (
     <>
       <section className="py-20 bg-white overflow-x-hidden">
-        <div className="container mx-auto px-4 max-w-full">
+        <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
             {/* Left side - Image collage */}
             <div className="w-full lg:w-1/2 relative">
@@ -83,10 +83,10 @@ const AboutSection = () => {
               </div>
 
               {/* Desktop Layout */}
-              <div className="hidden lg:flex relative items-center justify-center h-[500px] max-w-full">
+              <div className="hidden lg:flex relative items-center justify-center h-[600px] max-w-full">
                 {/* Top left image */}
                 <motion.div 
-                  className="absolute -left-4 top-0 w-[220px] h-[160px] rounded-lg overflow-hidden shadow-md z-20"
+                  className="absolute -left-4 top-0 w-[280px] h-[200px] rounded-lg overflow-hidden shadow-md z-20"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
@@ -102,7 +102,7 @@ const AboutSection = () => {
                 
                 {/* Center image - Main curved house */}
                 <motion.div 
-                  className="absolute z-10 w-[380px] h-[280px] rounded-lg overflow-hidden shadow-md"
+                  className="absolute z-10 w-[480px] h-[380px] rounded-lg overflow-hidden shadow-md"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
@@ -118,7 +118,7 @@ const AboutSection = () => {
                 
                 {/* Bottom right image */}
                 <motion.div 
-                  className="absolute right-4 bottom-0 w-[220px] h-[160px] rounded-lg overflow-hidden shadow-md z-20"
+                  className="absolute right-4 bottom-0 w-[280px] h-[200px] rounded-lg overflow-hidden shadow-md z-20"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
@@ -133,7 +133,7 @@ const AboutSection = () => {
                 </motion.div>
                 
                 {/* Video button with pulse and spinning text - Desktop */}
-                <div className="absolute left-12 top-1/2 -translate-y-1/2 z-20">
+                <div className="absolute left-[140px] top-1/2 -translate-y-1/2 z-20">
                   <div className="relative group">
                     <div className="absolute inset-0 rounded-full bg-white/50 scale-125 animate-pulse-slow"></div>
                     <div className="absolute inset-0 rounded-full bg-white/40 scale-150 animate-pulse-slow animation-delay-1000"></div>

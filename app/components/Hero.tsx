@@ -224,7 +224,7 @@ const Hero = () => {
 
   return (
     <>
-      <section className="relative h-[100vh] overflow-x-hidden">
+      <section className="relative min-h-screen w-full">
         {/* Background Image Carousel */}
         <div className="absolute inset-0 z-0">
           {backgroundImages.map((image, index) => (
@@ -246,16 +246,16 @@ const Hero = () => {
                   transform: "scale(1.02)",
                   transition: "all 1s ease-in-out"
                 }}
-                className="animate-fadeIn"
+                className="sm:static"
                 loading={index === 0 ? "eager" : "lazy"}
               />
             </div>
           ))}
-          <div className="absolute inset-0 bg-black/40 animate-fadeIn"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
         </div>
         
         {/* Main Content */}
-        <div className="relative z-10 container mx-auto h-full flex flex-col sm:block">
+        <div className="relative z-10 px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto min-h-screen flex flex-col sm:block">
           {isMounted && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -270,7 +270,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 onClick={() => setShowContactForm(true)}
-                className="mt-32 sm:mt-8 mb-4 sm:mb-0 border border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full hover:bg-white hover:text-black transition sm:transform-none text-sm sm:text-base"
+                className="mt-32 sm:mt-[32rem] sm:ml-16 mb-4 sm:mb-0 border border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full hover:bg-white hover:text-black transition sm:transform-none text-sm sm:text-base"
               >
                 Request A Visit →
               </motion.button>
@@ -284,9 +284,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="absolute bottom-[2%] sm:bottom-16 left-0 w-full z-20"
+            className="absolute bottom-[2%] sm:bottom-24 left-0 w-full z-20"
           >
-            <div className="container mx-auto px-3 sm:px-4 flex flex-col sm:flex-row justify-center items-center sm:items-start">
+            <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto flex flex-col sm:flex-row justify-center items-center sm:items-start">
               {/* Mobile Image Carousel - Outside Container */}
               <div className="block sm:hidden w-full max-w-[95%] mb-8">
                 <div className="relative p-4 rounded-[20px] overflow-visible">
@@ -363,122 +363,83 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Description Box Container */}
-              <div className="relative bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-[20px] sm:rounded-[30px] w-full max-w-[95%] sm:max-w-3xl overflow-visible sm:translate-x-16">
-                <div className="flex flex-col sm:flex-row relative">
-                  {/* Property carousel - Desktop */}
-                  <div className="hidden sm:flex sm:w-[35%] sm:absolute sm:-left-64 sm:justify-start">
-                    <div className="flex space-x-4 overflow-visible relative">
-                      {/* Left arrow button */}
-                      <button 
-                        onClick={prevProperty}
-                        suppressHydrationWarning
-                        className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
-                      >
-                        ←
-                      </button>
-                      
-                      {/* Property cards */}
-                      <div className="flex space-x-4">
-                        {[0, 1, 2].map((index) => {
-                          const displayIndex = (currentPropertyIndex - 1 + index + propertyTypes.length) % propertyTypes.length;
-                          const isCentered = index === 1;
-                          const property = propertyTypes[displayIndex];
-                          
-                          return (
-                            <div 
-                              key={index}
-                              className={`transition-all duration-700 ease-in-out ${
-                                isCentered ? 'z-10' : 'z-0'
-                              }`}
-                            >
-                              <div 
-                                className={`bg-gray-100/5 backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 shadow-sm ${
-                                  isCentered ? 'opacity-100' : 'opacity-50'
-                                } w-[140px]`}
-                                style={{ transform: isCentered ? 'scale(1.1)' : 'scale(0.95)' }}
-                              >
-                                <p className="text-gray-700 text-[10px] font-medium py-1.5 px-2 flex items-center justify-center truncate bg-white/80">
-                                  {property.type}
-                                </p>
-                                <div className="relative">
-                                  <div className="h-[75px] w-full relative overflow-hidden">
-                                    <Image
-                                      src={property.image.src}
-                                      alt={property.type}
-                                      fill
-                                      quality={75}
-                                      placeholder="blur"
-                                      blurDataURL={property.image.blurDataURL}
-                                      sizes="140px"
-                                      style={{ 
-                                        objectFit: "cover",
-                                        transform: isCentered ? 'scale(1.02)' : 'scale(1)'
-                                      }}
-                                      className={`transition-transform duration-700 ease-out ${
-                                        isCentered ? 'brightness-110' : 'brightness-75'
-                                      }`}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      {/* Right arrow button */}
-                      <button 
-                        onClick={nextProperty}
-                        suppressHydrationWarning
-                        className="absolute right-12 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
-                      >
-                        →
-                      </button>
-                    </div>
-                  </div>
+              {/* Desktop Layout */}
+              <div className="hidden sm:flex sm:w-[35%] sm:absolute sm:left-0 sm:justify-start sm:translate-x-[20rem] sm:translate-y-8 sm:z-30">
+                <div className="flex space-x-4 overflow-visible relative">
+                  {/* Left arrow button */}
+                  <button 
+                    onClick={prevProperty}
+                    suppressHydrationWarning
+                    className="absolute -left-1 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-10 h-10 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-lg"
+                  >
+                    ←
+                  </button>
                   
-                  {/* Mobile Description Box */}
-                  <div className="block sm:hidden px-4 py-5">
-                    <div className="text-white text-xs leading-relaxed mb-8 transition-all duration-700 ease-in-out">
-                      {propertyTypes[currentPropertyIndex].description}
-                    </div>
-                    
-                    {/* Circle Design */}
-                    <div className="flex justify-center">
-                      <div className="w-28 h-28 rounded-full bg-white/70 backdrop-blur-md flex items-center justify-center relative">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-[1px] h-6 bg-black rounded-full" />
-                        </div>
-                        <div className="absolute w-full h-full rounded-full">
-                          <svg className="absolute w-full h-full animate-spin-slow" viewBox="0 0 100 100">
-                            <defs>
-                              <path
-                                id="mobileCirclePath"
-                                d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                                fill="none"
-                              />
-                            </defs>
-                            <text fontSize="9" fontWeight="400" letterSpacing="1.5" className="uppercase" fill="black">
-                              <textPath href="#mobileCirclePath" startOffset="0%" wordSpacing="2">
-                                EXPLORE AND FIND YOUR DREAM PLACE *
-                              </textPath>
-                            </text>
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center z-10">
-                            <div className="border border-black rounded-full w-4 h-8 flex items-center justify-center overflow-hidden">
-                              <div className="relative w-full h-full flex items-center justify-center">
-                                <div className="w-0.5 h-1.5 bg-black rounded-full absolute animate-mouseScroll" />
+                  {/* Property cards */}
+                  <div className="flex space-x-6">
+                    {[0, 1, 2].map((index) => {
+                      const displayIndex = (currentPropertyIndex - 1 + index + propertyTypes.length) % propertyTypes.length;
+                      const isCentered = index === 1;
+                      const property = propertyTypes[displayIndex];
+                      
+                      return (
+                        <div 
+                          key={index}
+                          className={`transition-all duration-700 ease-in-out ${
+                            isCentered ? 'z-10' : 'z-0'
+                          }`}
+                        >
+                          <div 
+                            className={`bg-gray-100/5 backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 shadow-sm ${
+                              isCentered ? 'opacity-100' : 'opacity-80'
+                            } w-[180px]`}
+                            style={{ transform: isCentered ? 'scale(1.1)' : 'scale(0.95)' }}
+                          >
+                            <p className="text-gray-700 text-xs font-medium py-2 px-3 flex items-center justify-center truncate bg-white/80">
+                              {property.type}
+                            </p>
+                            <div className="relative">
+                              <div className="h-[100px] w-full relative overflow-hidden">
+                                <Image
+                                  src={property.image.src}
+                                  alt={property.type}
+                                  fill
+                                  quality={75}
+                                  placeholder="blur"
+                                  blurDataURL={property.image.blurDataURL}
+                                  sizes="180px"
+                                  style={{ 
+                                    objectFit: "cover",
+                                    transform: isCentered ? 'scale(1.02)' : 'scale(1)'
+                                  }}
+                                  className={`transition-transform duration-700 ease-out ${
+                                    isCentered ? 'brightness-110' : 'brightness-90'
+                                  }`}
+                                />
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      );
+                    })}
                   </div>
 
+                  {/* Right arrow button */}
+                  <button 
+                    onClick={nextProperty}
+                    suppressHydrationWarning
+                    className="absolute right-12 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-10 h-10 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-lg"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              {/* Description Box Container */}
+              <div className="relative bg-white/10 backdrop-blur-md p-4 sm:p-8 rounded-[20px] sm:rounded-[30px] w-full max-w-[95%] sm:max-w-4xl overflow-visible sm:translate-x-48 sm:z-20">
+                <div className="flex flex-col sm:flex-row relative">
                   {/* Desktop Description */}
-                  <div className="hidden sm:block sm:w-[65%] sm:ml-auto sm:pl-4 sm:pr-4 overflow-hidden sm:h-28 sm:flex sm:items-center">
+                  <div className="hidden sm:block sm:w-[65%] sm:ml-auto sm:pl-4 sm:pr-4 overflow-hidden sm:h-36 sm:flex sm:items-center">
                     <div className="relative h-full w-full flex items-center">
                       {propertyTypes.map((property, index) => (
                         <div 
@@ -492,7 +453,7 @@ const Hero = () => {
                                 'opacity-0 transform translate-x-full'
                           }`}
                         >
-                          <p className="text-[12px] leading-relaxed text-left max-w-xl">
+                          <p className="text-sm leading-relaxed text-left max-w-xl">
                             {property.description}
                           </p>
                         </div>
@@ -501,8 +462,8 @@ const Hero = () => {
                   </div>
 
                   {/* Desktop Badge/Seal */}
-                  <div className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-3/4 w-28 h-28 bg-white/60 backdrop-blur-md rounded-full items-center justify-center z-30">
-                    <div className="w-24 h-24 rounded-full border-none flex items-center justify-center text-center relative overflow-hidden">
+                  <div className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-[85%] w-36 h-36 bg-white/60 backdrop-blur-md rounded-full items-center justify-center z-30">
+                    <div className="w-32 h-32 rounded-full border-none flex items-center justify-center text-center relative overflow-hidden">
                       <svg className="absolute w-full h-full animate-spin-slow" viewBox="0 0 100 100">
                         <defs>
                           <path
@@ -511,16 +472,16 @@ const Hero = () => {
                             fill="none"
                           />
                         </defs>
-                        <text fontSize="10.5" fontWeight="400" letterSpacing="1.2" className="uppercase" fill="black">
+                        <text fontSize="11" fontWeight="400" letterSpacing="1.2" className="uppercase" fill="black">
                           <textPath href="#circlePath" startOffset="0%" wordSpacing="2">
                             EXPLORE AND FIND YOUR DREAM PLACE *
                           </textPath>
                         </text>
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center z-10">
-                        <div className="border border-black rounded-full w-4 h-8 flex items-center justify-center overflow-hidden">
+                        <div className="border border-black rounded-full w-5 h-10 flex items-center justify-center overflow-hidden">
                           <div className="relative w-full h-full flex items-center justify-center">
-                            <div className="w-0.5 h-1.5 bg-black rounded-full absolute animate-mouseScroll" />
+                            <div className="w-0.5 h-2 bg-black rounded-full absolute animate-mouseScroll" />
                           </div>
                         </div>
                       </div>

@@ -89,23 +89,23 @@ const ProjectsSection = () => {
   const [selectedCity, setSelectedCity] = useState<City>('INDORE');
 
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section className="py-12 sm:py-20 bg-white">
+      <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="flex flex-col items-center gap-2">
+        <div className="mb-8 sm:mb-16">
+          <div className="flex flex-col items-start gap-2">
             <div className="h-[2px] w-12 bg-black"></div>
-            <h3 className="text-base font-medium text-gray-600">Projects</h3>
+            <h3 className="text-sm sm:text-base font-medium text-gray-600">Projects</h3>
             <div className="h-[2px] w-12 bg-black"></div>
           </div>
-          <h2 className="text-[2.75rem] font-bold text-[#1e293b] mt-6 mb-6">Our Latest Projects</h2>
-          <p className="text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-[2.75rem] font-bold text-[#1e293b] mt-4 sm:mt-6 mb-4 sm:mb-6">Our Latest Projects</h2>
+          <p className="text-sm sm:text-base text-gray-600 max-w-3xl">
             Discover Soraj Group's exceptional residential and commercial developments across India. Our portfolio showcases innovative design and premium quality, setting new standards in real estate excellence.
           </p>
         </div>
 
         {/* City Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+        <div className="flex flex-wrap justify-start sm:justify-center gap-2 md:gap-4 mb-6 sm:mb-8 md:mb-12">
           {cities.map((city) => (
             <button
               key={city}
@@ -123,7 +123,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 sm:px-0">
           {projectsByCity[selectedCity].map((project, index) => (
             <motion.div
               key={project.id}
@@ -132,29 +132,29 @@ const ProjectsSection = () => {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className={`relative h-[250px] md:h-[400px] ${!project.hasImage ? 'bg-gradient-to-br from-[#1e293b] to-[#334155]' : ''}`}>
+              <div className={`relative h-[200px] sm:h-[250px] md:h-[400px] ${!project.hasImage ? 'bg-gradient-to-br from-[#1e293b] to-[#334155]' : ''}`}>
                 {project.hasImage ? (
                   <>
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-cover transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
                   </>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">RESIDENTIAL</h3>
-                      <p className="text-gray-300 text-base md:text-lg">Project Details Coming Soon</p>
+                      <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">RESIDENTIAL</h3>
+                      <p className="text-gray-300 text-sm sm:text-base md:text-lg">Project Details Coming Soon</p>
                     </div>
                   </div>
                 )}
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-black/90 to-transparent">
-                <h3 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2 transform transition-transform duration-300 group-hover:translate-x-2">UPCOMING</h3>
-                <p className="text-gray-200 text-xs md:text-sm transform transition-transform duration-300 group-hover:translate-x-2">
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-8 bg-gradient-to-t from-black/90 to-transparent">
+                <h3 className="text-lg sm:text-xl md:text-3xl font-bold text-white mb-1 md:mb-2 transform transition-transform duration-300 group-hover:translate-x-2">UPCOMING</h3>
+                <p className="text-gray-200 text-xs sm:text-sm transform transition-transform duration-300 group-hover:translate-x-2">
                   {project.title} - {project.description}
                 </p>
               </div>

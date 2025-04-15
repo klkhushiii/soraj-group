@@ -62,7 +62,7 @@ const TestimonialSection = () => {
 
   return (
     <section className="py-12 sm:py-20 bg-gray-50 overflow-x-hidden">
-      <div className="container mx-auto px-3 sm:px-4 max-w-7xl">
+      <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto">
         {/* Section Header */}
         <div className="mb-8 sm:mb-12 md:mb-20">
           <div className="inline-block pt-1 pb-1 border-y-2 sm:border-y-0 sm:border-b-2 border-gray-300 text-sm font-medium text-gray-900 tracking-wide mb-6">

@@ -62,8 +62,8 @@ const CounterItem: React.FC<CounterItemProps> = ({ end, label, suffix = "+" }) =
 const CounterSection = () => {
   return (
     <section className="py-12 sm:py-16 bg-[#cbd5d8]">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 sm:gap-10 text-center max-w-xs sm:max-w-none mx-auto">
+      <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 sm:gap-10 text-center w-full">
           <CounterItem end={850} label="ELEGANT APARTMENTS" />
           <CounterItem end={950} label="LUXURY HOUSES" />
           <CounterItem end={18} label="SATISFIED GUESTS" suffix="K+" />

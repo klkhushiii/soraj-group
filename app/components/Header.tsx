@@ -52,7 +52,7 @@ const Header = () => {
           }`}
         ></div>
         
-        <div className="container mx-auto px-3 md:px-8 py-2 md:py-6 flex items-center relative z-10 h-[55px] md:h-[90px]">
+        <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto py-2 md:py-6 flex items-center relative z-10 h-[55px] md:h-[90px]">
           {/* Mobile Menu Button - Moved to right side */}
           <div className="flex-shrink-0 md:mr-16">
             <Link href="/" className="transition-transform duration-300 hover:scale-105 flex items-center h-12 md:h-14">
@@ -171,30 +171,39 @@ const Header = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] max-w-md"
+              className="fixed inset-0 flex items-center justify-center z-50 p-4"
             >
-              <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-                <div className="p-5 md:p-6 pb-0">
-                  <div className="flex items-center justify-center mb-4">
+              <div className="w-full max-w-[320px] bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="relative px-5 pt-8 pb-5">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                    aria-label="Close modal"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <div className="flex flex-col items-center">
                     <Image 
                       src="/soraj-logo.svg" 
                       alt="SORAJ GROUP Logo" 
                       width={100} 
                       height={34} 
-                      className="h-6 md:h-7 w-auto"
+                      className="h-7 w-auto mb-6"
                     />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Demo Version
+                    </h3>
+                    <p className="text-sm text-gray-600 text-center">
+                      This is a demo version. Please contact us for more information about our properties and services.
+                    </p>
                   </div>
-                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 text-center mb-2">
-                    Demo Version
-                  </h3>
-                  <p className="text-sm md:text-base text-gray-600 text-center mb-6">
-                    This is a demo version. Please contact us for more information about our properties and services.
-                  </p>
                 </div>
-                <div className="px-5 md:px-6 py-4 bg-gray-50 flex flex-col sm:flex-row justify-center gap-3 sm:space-x-4">
+                <div className="px-5 py-4 bg-gray-50 flex flex-col gap-2">
                   <a
                     href="tel:+919691940361"
-                    className="px-5 md:px-6 py-2 bg-[#1e293b] text-white text-sm font-medium rounded-lg hover:bg-[#334155] transition-colors duration-200 flex items-center justify-center"
+                    className="w-full px-4 py-3 bg-[#1e293b] text-white text-sm font-medium rounded-lg hover:bg-[#334155] transition-colors duration-200 flex items-center justify-center"
                     onClick={() => setShowModal(false)}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -204,7 +213,7 @@ const Header = () => {
                   </a>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="px-5 md:px-6 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200"
+                    className="w-full px-4 py-3 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200"
                   >
                     Close
                   </button>
