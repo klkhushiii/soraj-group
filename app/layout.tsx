@@ -10,14 +10,7 @@ export const metadata: Metadata = {
   title: "Soraj Group",
   description: "Premium Real Estate Developer",
   icons: {
-    icon: [
-      { url: '/favicon-logo.jpg', type: 'image/jpeg', sizes: '32x32' },
-      { url: '/favicon-logo.jpg', type: 'image/jpeg', sizes: '16x16' },
-    ],
-    apple: [
-      { url: '/favicon-logo.jpg', type: 'image/jpeg' }
-    ],
-    shortcut: '/favicon-logo.jpg',
+    icon: '/favicon-logo.jpg',
   },
 };
 
