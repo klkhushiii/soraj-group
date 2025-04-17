@@ -94,11 +94,10 @@ const ProjectsSection = () => {
         {/* Section Header */}
         <div className="mb-8 sm:mb-16">
           <div className="flex flex-col items-start gap-2">
-            <div className="h-[2px] w-12 bg-black"></div>
-            <h3 className="text-sm sm:text-base font-medium text-gray-600">Projects</h3>
-            <div className="h-[2px] w-12 bg-black"></div>
+            <h3 className="text-sm sm:text-base font-medium text-[#1e3a8a]">Projects</h3>
+            <div className="h-[2px] w-12 bg-[#1e3a8a]"></div>
           </div>
-          <h2 className="text-2xl sm:text-[2.75rem] font-bold text-[#1e293b] mt-4 sm:mt-6 mb-4 sm:mb-6">Our Latest Projects</h2>
+          <h2 className="text-2xl sm:text-[2.75rem] font-bold text-[#1e3a8a] mt-4 sm:mt-6 mb-4 sm:mb-6">Our Latest Projects</h2>
           <p className="text-sm sm:text-base text-gray-600 max-w-3xl">
             Discover Soraj Group's exceptional residential and commercial developments across India. Our portfolio showcases innovative design and premium quality, setting new standards in real estate excellence.
           </p>
@@ -112,8 +111,8 @@ const ProjectsSection = () => {
               onClick={() => setSelectedCity(city as City)}
               className={`px-3 md:px-6 py-2 md:py-3 rounded-lg text-xs md:text-sm font-medium transition-all duration-300 ${
                 selectedCity === city as City
-                ? 'bg-[#1e293b] text-white shadow-lg'
-                : 'bg-gray-100 text-gray-600 hover:bg-[#1e293b] hover:text-white'
+                ? 'bg-[#1e3a8a] text-white shadow-lg'
+                : 'bg-gray-100 text-gray-600 hover:bg-[#1e3a8a] hover:text-white'
               }`}
               suppressHydrationWarning
             >

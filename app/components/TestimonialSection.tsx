@@ -65,103 +65,19 @@ const TestimonialSection = () => {
       <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto">
         {/* Section Header */}
         <div className="mb-8 sm:mb-12 md:mb-20">
-          <div className="inline-block pt-1 pb-1 border-y-2 sm:border-y-0 sm:border-b-2 border-gray-300 text-sm font-medium text-gray-900 tracking-wide mb-6">
-            Testimonial
+          <div className="flex flex-col items-start gap-2">
+            <h3 className="text-sm sm:text-base font-medium text-[#1e3a8a]">Testimonial</h3>
+            <div className="h-[2px] w-12 bg-[#1e3a8a]"></div>
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-[2.75rem] font-bold text-black">
+          <h2 className="text-xl sm:text-2xl md:text-[2.75rem] font-bold text-[#1e3a8a] mt-4">
             What Our Clients Say
           </h2>
         </div>
 
         {/* Testimonial Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-          {/* Mobile View - Single Card with Image */}
-          <div className="md:hidden flex flex-col gap-4 sm:gap-6">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonials[currentIndex].id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-                className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg relative z-10"
-              >
-                {/* Rating Stars */}
-                <div className="flex gap-0.5 sm:gap-1 mb-2 sm:mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Testimonial Text */}
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed"
-                >
-                  &ldquo;{testimonials[currentIndex].text}&rdquo;
-                </motion.p>
-
-                {/* Author Info */}
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="flex items-center"
-                >
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden mr-2 sm:mr-3">
-                    <Image
-                      src={testimonials[currentIndex].avatar}
-                      alt={testimonials[currentIndex].author}
-                      width={32}
-                      height={32}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 text-xs sm:text-sm">
-                      {testimonials[currentIndex].author}
-                    </h4>
-                    <p className="text-gray-500 text-[10px] sm:text-xs">
-                      {testimonials[currentIndex].role}
-                    </p>
-                  </div>
-                </motion.div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Mobile Property Image */}
-            <div className="relative h-[200px] sm:h-[300px] rounded-xl sm:rounded-2xl overflow-hidden">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={testimonials[currentIndex].id + "-image"}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="w-full h-full"
-                >
-                  <Image
-                    src={testimonials[currentIndex].propertyImage}
-                    alt="Property view"
-                    fill
-                    className="object-cover"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-12">
           {/* Desktop View - Original Layout */}
-          <div className="hidden md:flex flex-col gap-6">
+          <div className="hidden md:flex flex-col gap-8 justify-center">
             {/* First Testimonial Card */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -170,14 +86,14 @@ const TestimonialSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
                 transition={{ duration: 0.4 }}
-                className="bg-white rounded-2xl p-5 shadow-lg relative z-10 max-w-md"
+                className="bg-white rounded-2xl p-8 shadow-lg relative z-10 max-w-xl hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Rating Stars */}
-                <div className="flex gap-1 mb-3">
+                <div className="flex gap-1.5 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
-                      className="w-3.5 h-3.5 text-yellow-400"
+                      className="w-4 h-4 text-yellow-400"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -190,7 +106,7 @@ const TestimonialSection = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="text-gray-600 text-sm mb-4 leading-relaxed"
+                  className="text-gray-600 text-base mb-6 leading-relaxed italic"
                 >
                   &ldquo;{testimonials[currentIndex].text}&rdquo;
                 </motion.p>
@@ -201,20 +117,20 @@ const TestimonialSection = () => {
                   transition={{ delay: 0.3 }}
                   className="flex items-center"
                 >
-                  <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4 border-2 border-gray-100">
                     <Image
                       src={testimonials[currentIndex].avatar}
                       alt={testimonials[currentIndex].author}
-                      width={32}
-                      height={32}
+                      width={48}
+                      height={48}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 text-sm">
+                    <h4 className="font-semibold text-[#1e3a8a] text-lg">
                       {testimonials[currentIndex].author}
                     </h4>
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-gray-500 text-sm">
                       {testimonials[currentIndex].role}
                     </p>
                   </div>
@@ -230,14 +146,14 @@ const TestimonialSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
                 transition={{ duration: 0.4, delay: 0.4 }}
-                className="bg-white rounded-2xl p-5 shadow-lg relative z-10 max-w-md"
+                className="bg-white rounded-2xl p-8 shadow-lg relative z-10 max-w-xl hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Rating Stars */}
-                <div className="flex gap-1 mb-3">
+                <div className="flex gap-1.5 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
-                      className="w-3.5 h-3.5 text-yellow-400"
+                      className="w-4 h-4 text-yellow-400"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -250,7 +166,7 @@ const TestimonialSection = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
-                  className="text-gray-600 text-sm mb-4 leading-relaxed"
+                  className="text-gray-600 text-base mb-6 leading-relaxed italic"
                 >
                   &ldquo;{testimonials[nextIndex].text}&rdquo;
                 </motion.p>
@@ -261,20 +177,20 @@ const TestimonialSection = () => {
                   transition={{ delay: 0.7 }}
                   className="flex items-center"
                 >
-                  <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4 border-2 border-gray-100">
                     <Image
                       src={testimonials[nextIndex].avatar}
                       alt={testimonials[nextIndex].author}
-                      width={32}
-                      height={32}
+                      width={48}
+                      height={48}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 text-sm">
+                    <h4 className="font-semibold text-[#1e3a8a] text-lg">
                       {testimonials[nextIndex].author}
                     </h4>
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-gray-500 text-sm">
                       {testimonials[nextIndex].role}
                     </p>
                   </div>
@@ -284,29 +200,32 @@ const TestimonialSection = () => {
           </div>
 
           {/* Right Side - Property Image (Desktop Only) */}
-          <div className="hidden md:block relative h-[500px] rounded-2xl overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonials[currentIndex].id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full h-full"
-              >
-                <Image
-                  src={testimonials[currentIndex].propertyImage}
-                  alt="Property view"
-                  fill
-                  className="object-cover"
-                />
-              </motion.div>
-            </AnimatePresence>
+          <div className="hidden md:flex items-center">
+            <div className="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-xl">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={testimonials[currentIndex].id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src={testimonials[currentIndex].propertyImage}
+                    alt="Property view"
+                    fill
+                    className="object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
         {/* Navigation Dots */}
-        <div className="flex justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6 md:mt-8">
+        <div className="flex justify-center gap-2 mt-8 sm:mt-10 md:mt-12">
           {testimonials.map((_, index) => (
             <button
               key={index}
@@ -314,8 +233,8 @@ const TestimonialSection = () => {
                 setCurrentIndex(index);
                 setNextIndex((index + 1) % testimonials.length);
               }}
-              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex ? 'bg-gray-800 w-3 sm:w-4' : 'bg-gray-300'
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                index === currentIndex ? 'bg-[#1e3a8a] w-8' : 'bg-gray-300 hover:bg-[#1e3a8a]/50'
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
               suppressHydrationWarning

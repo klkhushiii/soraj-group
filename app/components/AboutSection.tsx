@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import DemoPopup from './DemoPopup';
 
@@ -13,9 +12,108 @@ const AboutSection = () => {
     <>
       <section className="py-20 bg-white overflow-x-hidden">
         <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto">
+          {/* Stats Section */}
+          <div className="mb-16 bg-gradient-to-r from-[#0f172a] to-[#1e3a8a] rounded-2xl p-4 sm:p-8 md:p-12 shadow-xl">
+            <div className="grid grid-cols-4 gap-2 sm:gap-6 md:gap-8">
+              <div className="text-center p-2 sm:p-0">
+                <h3 className="text-xl xs:text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">850+</h3>
+                <p className="text-[10px] xs:text-sm sm:text-base text-gray-300">ELEGANT APARTMENTS</p>
+              </div>
+              <div className="text-center p-2 sm:p-0">
+                <h3 className="text-xl xs:text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">950+</h3>
+                <p className="text-[10px] xs:text-sm sm:text-base text-gray-300">LUXURY HOUSES</p>
+              </div>
+              <div className="text-center p-2 sm:p-0">
+                <h3 className="text-xl xs:text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">18K+</h3>
+                <p className="text-[10px] xs:text-sm sm:text-base text-gray-300">SATISFIED GUESTS</p>
+              </div>
+              <div className="text-center p-2 sm:p-0">
+                <h3 className="text-xl xs:text-3xl sm:text-4xl font-bold text-white mb-1 sm:mb-2">2K+</h3>
+                <p className="text-[10px] xs:text-sm sm:text-base text-gray-300">HAPPY OWNERS</p>
+              </div>
+            </div>
+          </div>
+
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-            {/* Left side - Image collage */}
-            <div className="w-full lg:w-1/2 relative">
+            {/* Right side - Text content (will appear first on mobile) */}
+            <div className="w-full lg:w-1/2 px-4 lg:px-0 order-1 lg:order-2">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="space-y-6"
+              >
+                <div className="flex flex-col items-start gap-2">
+                  <h3 className="text-sm sm:text-base font-medium text-[#1e3a8a]">About Us</h3>
+                  <div className="h-[2px] w-12 bg-[#1e3a8a]"></div>
+                </div>
+                
+                <h2 className="text-2xl sm:text-[2.75rem] font-bold text-[#1e3a8a]">Welcome to Soraj Group</h2>
+                
+                <p className="text-gray-600 leading-relaxed">
+                  Soraj Group is a premier real estate developer committed to creating 
+                  exceptional living spaces that blend innovative design with unmatched 
+                  quality. With a customer-first approach, we transform visions into 
+                  reality through meticulous planning and superior craftsmanship.
+                </p>
+                
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-700">Transparent Dealings, Every Step of the Way</p>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-700">100% Satisfaction guarantee</p>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-700">Modern Designs Meets Lasting Quality</p>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-700">Research and Development Facilities</p>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={() => setShowDemoPopup(true)}
+                  className="inline-block mt-6 px-3 py-1.5 bg-blue-800 text-white text-xs rounded-full font-medium relative overflow-hidden group transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  suppressHydrationWarning
+                >
+                  <span className="relative z-10">
+                    More About Soraj Group
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 inline-block ml-0.5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-900 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-out transform -translate-x-full group-hover:translate-x-0"></div>
+                </button>
+              </motion.div>
+            </div>
+            
+            {/* Left side - Image collage (will appear second on mobile) */}
+            <div className="w-full lg:w-1/2 relative order-2 lg:order-1">
               {/* Mobile Layout */}
               <div className="block lg:hidden w-full">
                 <div className="flex flex-col gap-2">
@@ -86,7 +184,7 @@ const AboutSection = () => {
               <div className="hidden lg:flex relative items-center justify-center h-[600px] max-w-full">
                 {/* Top left image */}
                 <motion.div 
-                  className="absolute -left-4 top-0 w-[280px] h-[200px] rounded-lg overflow-hidden shadow-md z-20"
+                  className="absolute left-0 top-0 w-[280px] h-[200px] rounded-lg overflow-hidden shadow-md z-20"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
@@ -162,82 +260,6 @@ const AboutSection = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Right side - Text content */}
-            <div className="w-full lg:w-1/2 px-4 lg:px-0">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="space-y-6"
-              >
-                <div className="inline-block pt-1 pb-1 border-y-2 sm:border-y-0 sm:border-b-2 border-gray-300 text-sm font-medium text-gray-900 tracking-wide">
-                  About Us
-                </div>
-                
-                <h2 className="text-4xl font-medium text-gray-900">Welcome to Soraj Group</h2>
-                
-                <p className="text-gray-600 leading-relaxed">
-                  Soraj Group is a premier real estate developer committed to creating 
-                  exceptional living spaces that blend innovative design with uncompromising 
-                  quality. With a customer-first approach, we transform visions into 
-                  reality through meticulous planning and superior craftsmanship.
-                </p>
-                
-                <div className="space-y-4 pt-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <p className="text-gray-700">Transparent Dealings, Every Step of the Way</p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <p className="text-gray-700">100% Satisfaction guarantee</p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <p className="text-gray-700">Modern Designs Meets Lasting Quality</p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-gray-300 mt-0.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <p className="text-gray-700">Research and Development Facilities</p>
-                  </div>
-                </div>
-                
-                <button 
-                  onClick={() => setShowDemoPopup(true)}
-                  className="inline-block mt-6 px-3 py-1.5 bg-blue-800 text-white text-xs rounded-full font-medium relative overflow-hidden group transition-all duration-200 hover:scale-105 hover:shadow-md"
-                  suppressHydrationWarning
-                >
-                  <span className="relative z-10">
-                    More About Soraj Group
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 inline-block ml-0.5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-900 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-out transform -translate-x-full group-hover:translate-x-0"></div>
-                </button>
-              </motion.div>
             </div>
           </div>
         </div>

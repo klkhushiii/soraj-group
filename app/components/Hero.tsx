@@ -2,16 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 
 const Hero = () => {
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
   const [currentPropertyIndex, setCurrentPropertyIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
-  const [slideDirection, setSlideDirection] = useState('left');
   const [showContactForm, setShowContactForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [dragStart, setDragStart] = useState(0);
+  const [dragEnd, setDragEnd] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,12 +29,24 @@ const Hero = () => {
 
   const backgroundImages = [
     {
+      desktop: {
       src: "/images/WEB_BANNER-12.jpg",
-      blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q==",
+        blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q=="
+      },
+      mobile: {
+        src: "/images/amobile 1.jpg",
+        blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q=="
+      }
     },
     {
-      src: "/Boho-dsk.webp",
-      blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q==",
+      desktop: {
+      src: "/Boho-dsk.png",
+        blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q=="
+      },
+      mobile: {
+        src: "/images/amobile 2.jpg",
+        blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVigAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qQEBALkE2Qjc4QD1AOTlARkVFS1pWW0FC/9sAQwEVFxceHh4tISEtQjkuOUJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC/8AAEQgAIAAgAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8VooopDCiiigAooooA//2Q=="
+      }
     }
   ];
 
@@ -64,45 +77,28 @@ const Hero = () => {
     }
   ];
 
+    const preloadImages = () => {
+    if (typeof window === 'undefined') return;
+      
+      backgroundImages.forEach(img => {
+          const image = new window.Image();
+      image.src = img.desktop.src;
+      });
+      
+      propertyTypes.forEach(type => {
+          const image = new window.Image();
+          image.src = type.image.src;
+    });
+  };
+
   useEffect(() => {
     setIsMounted(true);
 
-    // Improved image preloading with caching
-    const preloadImages = () => {
-      // Create a cache to store preloaded images
-      const imageCache = new Map<string, HTMLImageElement>();
-      
-      // Preload background images
-      backgroundImages.forEach(img => {
-        if (!imageCache.has(img.src)) {
-          const image = new window.Image();
-          image.src = img.src;
-          imageCache.set(img.src, image);
-        }
-      });
-      
-      // Preload property type images
-      propertyTypes.forEach(type => {
-        if (!imageCache.has(type.image.src)) {
-          const image = new window.Image();
-          image.src = type.image.src;
-          imageCache.set(type.image.src, image);
-        }
-      });
-      
-      return imageCache;
-    };
+    preloadImages();
 
-    // Initialize image cache
-    const imageCache = preloadImages();
-
-    // Synchronized interval for all animations (5 seconds)
     const interval = setInterval(() => {
-      // Change background image
       setCurrentBgIndex((prevIndex) => (prevIndex + 1) % backgroundImages.length);
       
-      // Change property type with animation
-      setSlideDirection('left');
       setIsSliding(true);
       setTimeout(() => {
         setCurrentPropertyIndex((prevIndex) => (prevIndex + 1) % propertyTypes.length);
@@ -119,7 +115,6 @@ const Hero = () => {
 
   const nextProperty = () => {
     if (isSliding) return;
-    setSlideDirection('left');
     setIsSliding(true);
     setTimeout(() => {
       setCurrentPropertyIndex((prevIndex) => (prevIndex + 1) % propertyTypes.length);
@@ -131,7 +126,6 @@ const Hero = () => {
 
   const prevProperty = () => {
     if (isSliding) return;
-    setSlideDirection('right');
     setIsSliding(true);
     setTimeout(() => {
       setCurrentPropertyIndex((prevIndex) => (prevIndex - 1 + propertyTypes.length) % propertyTypes.length);
@@ -139,6 +133,24 @@ const Hero = () => {
         setIsSliding(false);
       }, 50);
     }, 500);
+  };
+
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    setDragEnd(info.offset.x);
+    const swipeThreshold = 50;
+    const diff = dragStart - dragEnd;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swiped left
+        setCurrentPropertyIndex((prev) => (prev + 1) % propertyTypes.length);
+      } else {
+        // Swiped right
+        setCurrentPropertyIndex((prev) => (prev - 1 + propertyTypes.length) % propertyTypes.length);
+      }
+    }
+    setDragStart(0);
+    setDragEnd(0);
   };
 
   const validateForm = () => {
@@ -150,27 +162,23 @@ const Hero = () => {
       message: ''
     };
 
-    // Name validation
     if (formData.name.trim().length < 3) {
       errors.name = 'Name must be at least 3 characters';
       isValid = false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       errors.email = 'Please enter a valid email address';
       isValid = false;
     }
 
-    // Phone validation
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(formData.phone)) {
       errors.phone = 'Please enter a valid 10-digit phone number';
       isValid = false;
     }
 
-    // Message validation
     if (formData.message.trim().length < 10) {
       errors.message = 'Message must be at least 10 characters';
       isValid = false;
@@ -183,7 +191,6 @@ const Hero = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    // For phone input, only allow numbers
     if (name === 'phone' && !/^\d*$/.test(value)) {
       return;
     }
@@ -193,7 +200,6 @@ const Hero = () => {
       [name]: value
     }));
 
-    // Clear error when user starts typing
     setFormErrors(prev => ({
       ...prev,
       [name]: ''
@@ -204,10 +210,8 @@ const Hero = () => {
     e.preventDefault();
     
     if (validateForm()) {
-      // Show success message
       setShowSuccess(true);
       
-      // Reset form after 2 seconds
       setTimeout(() => {
         setShowSuccess(false);
         setShowContactForm(false);
@@ -223,226 +227,103 @@ const Hero = () => {
   };
 
   return (
-    <>
-      <section className="relative min-h-screen w-full">
-        {/* Background Image Carousel */}
-        <div className="absolute inset-0 z-0">
-          {backgroundImages.map((image, index) => (
-            <div 
-              key={index} 
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentBgIndex ? 'opacity-100' : 'opacity-0'}`}
-            >
+    <section className="relative">
+      <div className="absolute inset-0">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={currentBgIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
+          >
+            <div className="hidden md:block w-full h-full">
               <Image
-                src={image.src}
-                alt={`Background ${index + 1}`}
+                src={backgroundImages[currentBgIndex].desktop.src}
+                alt="Luxury Property Background"
                 fill
+                priority
                 quality={90}
-                priority={index === 0}
                 placeholder="blur"
-                blurDataURL={image.blurDataURL}
-                sizes="100vw"
-                style={{ 
-                  objectFit: "cover",
-                  transform: "scale(1.02)",
-                  transition: "all 1s ease-in-out"
-                }}
-                className="sm:static"
-                loading={index === 0 ? "eager" : "lazy"}
+                blurDataURL={backgroundImages[currentBgIndex].desktop.blurDataURL}
+                className="object-cover"
               />
             </div>
-          ))}
-          <div className="absolute inset-0 bg-black/40"></div>
+            
+            <div className="block md:hidden w-full h-full">
+              <Image
+                src={backgroundImages[currentBgIndex].mobile.src}
+                alt="Luxury Property Background"
+                fill
+                priority
+                quality={90}
+                placeholder="blur"
+                blurDataURL={backgroundImages[currentBgIndex].mobile.blurDataURL}
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute inset-0 bg-black/30" />
+          </motion.div>
+        </AnimatePresence>
         </div>
         
-        {/* Main Content */}
         <div className="relative z-10 px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto min-h-screen flex flex-col sm:block">
           {isMounted && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex-1 flex flex-col justify-start items-center sm:block sm:max-w-2xl sm:mt-16"
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="flex-1 flex flex-col justify-start items-start sm:block sm:max-w-3xl sm:pt-[180px] pt-16"
             >
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                onClick={() => setShowContactForm(true)}
-                className="mt-32 sm:mt-[32rem] sm:ml-16 mb-4 sm:mb-0 border border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full hover:bg-white hover:text-black transition sm:transform-none text-sm sm:text-base"
-              >
-                Request A Visit →
-              </motion.button>
+              <div className="mt-8 sm:mt-0 mb-6 sm:mb-12 relative">
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="text-white text-xs sm:text-base uppercase tracking-[0.2em] mb-3 sm:mb-6 block font-medium drop-shadow-lg"
+                >
+                  Welcome to Soraj Group
+                </motion.span>
+                <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                  className="text-4xl sm:text-7xl font-bold text-white text-left mb-3 sm:mb-8 tracking-tight leading-[1.2] sm:leading-[1.1] drop-shadow-xl"
+                >
+                  Discover Your <br className="hidden sm:block" />
+                  <span className="relative inline-block">
+                    Dream Property
+                  </span>
+                </motion.h1>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+                  className="text-lg sm:text-2xl text-white max-w-xl text-left font-medium leading-relaxed drop-shadow-lg"
+                >
+                  Experience luxury living with our exclusive collection of premium properties
+                </motion.p>
+              </div>
             </motion.div>
           )}
         </div>
         
-        {/* Property Type Slider */}
         {isMounted && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="absolute bottom-[2%] sm:bottom-24 left-0 w-full z-20"
+            transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+            className="absolute bottom-0 left-0 w-full z-20 pb-8 sm:pb-16"
           >
-            <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto flex flex-col sm:flex-row justify-center items-center sm:items-start">
-              {/* Mobile Image Carousel - Outside Container */}
-              <div className="block sm:hidden w-full max-w-[95%] mb-8">
-                <div className="relative p-4 rounded-[20px] overflow-visible">
-                  <div className="w-full flex justify-center">
-                    <div className="flex space-x-4 overflow-visible relative">
-                      {/* Left arrow button */}
-                      <button 
-                        onClick={prevProperty}
-                        suppressHydrationWarning
-                        className="absolute left-14 sm:-left-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
-                      >
-                        ←
-                      </button>
-                      
-                      {/* Property cards */}
-                      <div className="flex space-x-4">
-                        {[0, 1, 2].map((index) => {
-                          const displayIndex = (currentPropertyIndex - 1 + index + propertyTypes.length) % propertyTypes.length;
-                          const isCentered = index === 1;
-                          const property = propertyTypes[displayIndex];
-                          
-                          return (
-                            <div 
-                              key={index}
-                              className={`transition-all duration-700 ease-in-out ${
-                                isCentered ? 'z-10' : 'z-0'
-                              }`}
-                            >
-                              <div 
-                                className={`rounded-xl overflow-hidden transition-all duration-700 ease-in-out ${
-                                  isCentered ? 'opacity-100 scale-100' : 'opacity-50 scale-95'
-                                } w-[120px] sm:w-[100px]`}
-                                style={{ transform: isCentered ? 'scale(1.1)' : 'scale(0.95)' }}
-                              >
-                                <p className="text-gray-700 text-[10px] font-medium py-1.5 px-2 flex items-center justify-center truncate bg-white/80">
-                                  {property.type}
-                                </p>
-                                <div className="relative">
-                                  <div className="h-[100px] w-full relative overflow-hidden">
-                                    <Image
-                                      src={property.image.src}
-                                      alt={property.type}
-                                      fill
-                                      quality={75}
-                                      placeholder="blur"
-                                      blurDataURL={property.image.blurDataURL}
-                                      sizes="100px"
-                                      style={{ 
-                                        objectFit: "cover",
-                                        transform: isCentered ? 'scale(1.02)' : 'scale(1)'
-                                      }}
-                                      className={`transition-transform duration-700 ease-out ${
-                                        isCentered ? 'brightness-110' : 'brightness-75'
-                                      }`}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      {/* Right arrow button */}
-                      <button 
-                        onClick={nextProperty}
-                        suppressHydrationWarning
-                        className="absolute right-12 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-8 h-8 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-base"
-                      >
-                        →
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Desktop Layout */}
-              <div className="hidden sm:flex sm:w-[35%] sm:absolute sm:left-0 sm:justify-start sm:translate-x-[20rem] sm:translate-y-8 sm:z-30">
-                <div className="flex space-x-4 overflow-visible relative">
-                  {/* Left arrow button */}
-                  <button 
-                    onClick={prevProperty}
-                    suppressHydrationWarning
-                    className="absolute -left-1 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-10 h-10 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-lg"
-                  >
-                    ←
-                  </button>
-                  
-                  {/* Property cards */}
-                  <div className="flex space-x-6">
-                    {[0, 1, 2].map((index) => {
-                      const displayIndex = (currentPropertyIndex - 1 + index + propertyTypes.length) % propertyTypes.length;
-                      const isCentered = index === 1;
-                      const property = propertyTypes[displayIndex];
-                      
-                      return (
-                        <div 
-                          key={index}
-                          className={`transition-all duration-700 ease-in-out ${
-                            isCentered ? 'z-10' : 'z-0'
-                          }`}
-                        >
-                          <div 
-                            className={`bg-gray-100/5 backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 shadow-sm ${
-                              isCentered ? 'opacity-100' : 'opacity-80'
-                            } w-[180px]`}
-                            style={{ transform: isCentered ? 'scale(1.1)' : 'scale(0.95)' }}
-                          >
-                            <p className="text-gray-700 text-xs font-medium py-2 px-3 flex items-center justify-center truncate bg-white/80">
-                              {property.type}
-                            </p>
-                            <div className="relative">
-                              <div className="h-[100px] w-full relative overflow-hidden">
-                                <Image
-                                  src={property.image.src}
-                                  alt={property.type}
-                                  fill
-                                  quality={75}
-                                  placeholder="blur"
-                                  blurDataURL={property.image.blurDataURL}
-                                  sizes="180px"
-                                  style={{ 
-                                    objectFit: "cover",
-                                    transform: isCentered ? 'scale(1.02)' : 'scale(1)'
-                                  }}
-                                  className={`transition-transform duration-700 ease-out ${
-                                    isCentered ? 'brightness-110' : 'brightness-90'
-                                  }`}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Right arrow button */}
-                  <button 
-                    onClick={nextProperty}
-                    suppressHydrationWarning
-                    className="absolute right-12 sm:-right-4 top-1/2 -translate-y-1/2 z-30 bg-white hover:bg-white/90 w-10 h-10 rounded-full flex items-center justify-center text-black transition focus:outline-none shadow-md text-lg"
-                  >
-                    →
-                  </button>
-                </div>
-              </div>
-
-              {/* Description Box Container */}
-              <div className="relative bg-white/10 backdrop-blur-md p-4 sm:p-8 rounded-[20px] sm:rounded-[30px] w-full max-w-[95%] sm:max-w-4xl overflow-visible sm:translate-x-48 sm:z-20">
+            <div className="px-4 sm:px-6 xl:px-[60px] max-w-[1920px] mx-auto flex flex-col sm:flex-row justify-center items-center sm:items-start sm:translate-x-[5%]">
+              {/* Description Box */}
+              <div className="hidden sm:block relative bg-white/10 backdrop-blur-md p-6 rounded-[20px] w-full max-w-3xl overflow-visible sm:translate-x-[25%] sm:z-20 border border-white/10">
                 <div className="flex flex-col sm:flex-row relative">
-                  {/* Desktop Description */}
-                  <div className="hidden sm:block sm:w-[65%] sm:ml-auto sm:pl-4 sm:pr-4 overflow-hidden sm:h-36 sm:flex sm:items-center">
+                  <div className="hidden sm:block sm:w-[80%] sm:ml-auto sm:pl-4 sm:pr-16 overflow-hidden sm:h-28 sm:flex sm:items-center">
                     <div className="relative h-full w-full flex items-center">
                       {propertyTypes.map((property, index) => (
-                        <div 
+                        <motion.div 
                           key={index}
                           className={`absolute inset-0 text-white transition-all duration-700 flex items-center ${
                             index === currentPropertyIndex ? 
@@ -453,48 +334,247 @@ const Hero = () => {
                                 'opacity-0 transform translate-x-full'
                           }`}
                         >
-                          <p className="text-sm leading-relaxed text-left max-w-xl">
+                          <p className="text-base leading-relaxed text-left max-w-xl font-light">
                             {property.description}
                           </p>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Desktop Badge/Seal */}
-                  <div className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-[85%] w-36 h-36 bg-white/60 backdrop-blur-md rounded-full items-center justify-center z-30">
-                    <div className="w-32 h-32 rounded-full border-none flex items-center justify-center text-center relative overflow-hidden">
-                      <svg className="absolute w-full h-full animate-spin-slow" viewBox="0 0 100 100">
+                  {/* Circular Badge */}
+                  <div className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-[85%] w-32 h-32 bg-white/80 backdrop-blur-md rounded-full items-center justify-center z-30 shadow-2xl">
+                    <motion.div 
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="w-28 h-28 rounded-full border-none flex items-center justify-center text-center relative overflow-hidden"
+                    >
+                      <svg className="absolute w-full h-full" viewBox="0 0 100 100">
                         <defs>
                           <path
                             id="circlePath"
-                            d="M 50, 50 m -42, 0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
+                            d="M 50, 50 m -45, 0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0"
                             fill="none"
                           />
                         </defs>
-                        <text fontSize="11" fontWeight="400" letterSpacing="1.2" className="uppercase" fill="black">
-                          <textPath href="#circlePath" startOffset="0%" wordSpacing="2">
-                            EXPLORE AND FIND YOUR DREAM PLACE *
+                        <text fontSize="8" fontWeight="400" letterSpacing="1.5" className="uppercase" fill="black">
+                          <textPath href="#circlePath" startOffset="0%">
+                            EXPLORE AND FIND YOUR DREAM PLACE • 
                           </textPath>
                         </text>
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center z-10">
-                        <div className="border border-black rounded-full w-5 h-10 flex items-center justify-center overflow-hidden">
+                        <div className="border-2 border-black/80 rounded-full w-5 h-10 flex items-center justify-center overflow-hidden">
                           <div className="relative w-full h-full flex items-center justify-center">
-                            <div className="w-0.5 h-2 bg-black rounded-full absolute animate-mouseScroll" />
+                            <motion.div 
+                              animate={{ y: [0, 10, 0] }}
+                              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                              className="w-0.5 h-2 bg-black/80 rounded-full absolute"
+                            />
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
+              </div>
+
+              {/* Desktop Property Cards */}
+              <div className="hidden sm:flex sm:w-[45%] sm:absolute sm:left-0 sm:justify-start sm:translate-x-[5%] sm:translate-y-0 sm:z-30">
+                <div className="flex space-x-6 overflow-visible relative">
+                  <motion.button 
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={prevProperty}
+                    className="absolute -left-10 top-1/2 -translate-y-1/2 z-40 bg-white/90 backdrop-blur-sm hover:bg-white w-10 h-10 rounded-full flex items-center justify-center text-gray-900 transition-all duration-300 focus:outline-none shadow-lg text-base"
+                  >
+                    ←
+                  </motion.button>
+                  
+                  <div className="flex space-x-8">
+                    {[0, 1, 2].map((index) => {
+                      const displayIndex = (currentPropertyIndex - 1 + index + propertyTypes.length) % propertyTypes.length;
+                      const isCentered = index === 1;
+                      const property = propertyTypes[displayIndex];
+                      
+                      return (
+                        <motion.div 
+                          key={index}
+                          className={`transition-all duration-700 ease-in-out ${
+                            isCentered ? 'z-40' : 'z-30'
+                          }`}
+                        >
+                          <div 
+                            className={`bg-white/5 backdrop-blur-md rounded-xl overflow-hidden transition-all duration-700 shadow-xl ${
+                              isCentered ? 'opacity-100' : 'opacity-70'
+                            } w-[180px]`}
+                            style={{ 
+                              transform: isCentered ? 'scale(1.15)' : 'scale(0.85)',
+                              boxShadow: isCentered ? '0 20px 40px -8px rgba(0, 0, 0, 0.25)' : 'none'
+                            }}
+                          >
+                            <div className="text-gray-900 text-xs font-medium py-3 px-4 flex items-center justify-center truncate bg-white/95 backdrop-blur-md border-b border-gray-100">
+                              {property.type}
+                            </div>
+                            <div className="relative group">
+                              <div className="h-[120px] w-full relative overflow-hidden">
+                                <Image
+                                  src={property.image.src}
+                                  alt={property.type}
+                                  fill
+                                  quality={90}
+                                  placeholder="blur"
+                                  blurDataURL={property.image.blurDataURL}
+                                  sizes="180px"
+                                  style={{ 
+                                    objectFit: "cover",
+                                    transform: isCentered ? 'scale(1.02)' : 'scale(1)'
+                                  }}
+                                  className={`transition-all duration-700 ease-out group-hover:scale-110 ${
+                                    isCentered ? 'brightness-105' : 'brightness-90'
+                                  }`}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+
+                  <motion.button 
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={nextProperty}
+                    className="absolute -right-10 top-1/2 -translate-y-1/2 z-40 bg-white/90 backdrop-blur-sm hover:bg-white w-10 h-10 rounded-full flex items-center justify-center text-gray-900 transition-all duration-300 focus:outline-none shadow-lg text-base"
+                  >
+                    →
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* Mobile Property Type Grid */}
+              <div className="block sm:hidden w-full max-w-[92%] mb-8">
+                <div className="relative overflow-hidden">
+                  <motion.div
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.1}
+                    onDragStart={(e, info) => setDragStart(info.offset.x)}
+                    onDragEnd={handleDragEnd}
+                    className="flex"
+                    style={{ width: `${propertyTypes.length * 100}%` }}
+                    animate={{
+                      x: `-${currentPropertyIndex * (100 / propertyTypes.length)}%`
+                    }}
+                    transition={{
+                      type: "tween",
+                      duration: 0.3,
+                      ease: "easeOut"
+                    }}
+                  >
+                    {propertyTypes.map((property, index) => (
+                      <motion.div
+                        key={index}
+                        className="group relative rounded-2xl overflow-hidden bg-white/10 backdrop-blur-md shadow-xl border border-white/20"
+                        style={{ width: `${100 / propertyTypes.length}%` }}
+                      >
+                        <div className="aspect-[16/8] relative">
+                          <Image
+                            src={property.image.src}
+                            alt={property.type}
+                            fill
+                            quality={95}
+                            placeholder="blur"
+                            blurDataURL={property.image.blurDataURL}
+                            className="object-cover transition-all duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.1),transparent)]" />
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="space-y-2"
+                          >
+                            <div className="flex items-center justify-between">
+                              <h3 className="text-lg font-semibold text-white tracking-wide">
+                                {property.type}
+                              </h3>
+                              <motion.div 
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-white/95 backdrop-blur-md w-8 h-8 rounded-full flex items-center justify-center shadow-lg border border-white/20"
+                              >
+                                <svg className="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                              </motion.div>
+                            </div>
+                            <p className="text-sm text-white/90 leading-relaxed line-clamp-2 font-light">
+                              {property.description}
+                            </p>
+                          </motion.div>
+                        </div>
+                        <div className="absolute top-4 left-4">
+                          <div className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                            <span className="text-xs font-medium text-white tracking-wide">Premium</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+
+                  {/* Dots Navigation */}
+                  <div className="absolute bottom-4 left-0 right-0 flex justify-center items-center space-x-2">
+                    {propertyTypes.map((_, index) => (
+                      <motion.button
+                        key={index}
+                        onClick={() => setCurrentPropertyIndex(index)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentPropertyIndex 
+                            ? 'bg-white w-4' 
+                            : 'bg-white/50'
+                        }`}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Contact Button */}
+              <div className="block sm:hidden w-full max-w-[92%] mb-6">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowContactForm(true)}
+                  className="relative w-full bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md text-white py-4 px-5 rounded-2xl border border-white/20 shadow-xl overflow-hidden group"
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.1),transparent)]" />
+                  <div className="relative flex items-center justify-between">
+                    <span className="text-base font-semibold tracking-wide">Schedule a Visit</span>
+                    <motion.div
+                      animate={{ x: [0, 4, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="flex items-center space-x-2"
+                    >
+                      <span className="text-sm text-white/80">Explore</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </motion.div>
+                  </div>
+                </motion.button>
               </div>
             </div>
           </motion.div>
         )}
-      </section>
 
-      {/* Contact Form Modal */}
       {isMounted && (
         <AnimatePresence>
           {showContactForm && (
@@ -516,7 +596,6 @@ const Hero = () => {
               >
                 <div className="bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-xl mx-3 sm:mx-4">
                   <div className="p-3 sm:p-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 2rem)' }}>
-                    {/* Modal content */}
                     <div className="flex items-center justify-between mb-3 sm:mb-4">
                       <div className="flex items-center">
                         <Image 
@@ -541,11 +620,10 @@ const Hero = () => {
                       Request a Property Visit
                     </h3>
                     <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-6">
-                      Fill out the form below and we'll get back to you shortly.
+                      Fill out the form below and we&apos;ll get back to you shortly.
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-4">
-                      {/* Form fields */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                         <div>
                           <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -663,7 +741,6 @@ const Hero = () => {
                 </div>
               </motion.div>
 
-              {/* Success Message */}
               <AnimatePresence>
                 {showSuccess && (
                   <motion.div
@@ -683,7 +760,7 @@ const Hero = () => {
           )}
         </AnimatePresence>
       )}
-    </>
+    </section>
   );
 };
 
