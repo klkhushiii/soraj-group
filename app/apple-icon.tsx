@@ -1,6 +1,4 @@
 import { ImageResponse } from 'next/og';
-import fs from 'fs';
-import path from 'path';
 
 // Route segment config
 export const runtime = 'edge';
@@ -13,12 +11,7 @@ export const size = {
 export const contentType = 'image/png';
 
 // Image generation
-export default async function Icon() {
-  // Read the image file
-  const imagePath = path.join(process.cwd(), 'public', 'fav-logo.jpg');
-  const imageData = fs.readFileSync(imagePath);
-  const base64Image = `data:image/jpeg;base64,${imageData.toString('base64')}`;
-
+export default function Icon() {
   return new ImageResponse(
     (
       // ImageResponse JSX element
@@ -29,19 +22,19 @@ export default async function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          background: '#1e3a8a',
           borderRadius: '50%',
-          overflow: 'hidden',
         }}
       >
-        <img 
-          src={base64Image} 
-          alt="Apple Touch Icon" 
+        <div
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
+            fontSize: 120,
+            color: 'white',
+            fontWeight: 'bold',
           }}
-        />
+        >
+          S
+        </div>
       </div>
     ),
     // ImageResponse options
