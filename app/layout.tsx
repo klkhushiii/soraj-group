@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
+import ChatSupport from "./components/ChatSupport";
 
-const poppins = Poppins({
-  weight: ['300', '400', '500', '600', '700'],
-  subsets: ["latin"],
-  display: 'swap',
-  variable: '--font-poppins',
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Soraj Group - Premium Properties in India",
-  description: "Soraj Group - Discover luxury properties, apartments, villas, and residential spaces in India's most desirable communities.",
-  icons: {
-    icon: '/favicon-logo.jpg',
-    apple: '/favicon-logo.jpg',
-    shortcut: '/favicon-logo.jpg',
-  },
+  title: "Soraj Group",
+  description: "Premium Real Estate Developer",
 };
 
 export default function RootLayout({
@@ -26,8 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} font-sans antialiased`}>
+      <body className={inter.className}>
+        <Header />
         {children}
+        <ChatSupport />
       </body>
     </html>
   );
