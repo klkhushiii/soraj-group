@@ -10,9 +10,14 @@ export const metadata: Metadata = {
   title: "Soraj Group",
   description: "Premium Real Estate Developer",
   icons: {
-    icon: '/favicon-logo.jpg',
+    icon: [
+      { url: '/favicon-logo.jpg', type: 'image/jpeg', sizes: '32x32' },
+      { url: '/favicon-logo.jpg', type: 'image/jpeg', sizes: '16x16' },
+    ],
+    apple: [
+      { url: '/favicon-logo.jpg', type: 'image/jpeg' }
+    ],
     shortcut: '/favicon-logo.jpg',
-    apple: '/favicon-logo.jpg',
   },
 };
 
@@ -23,11 +28,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon-logo.jpg" type="image/jpeg" />
-        <link rel="shortcut icon" href="/favicon-logo.jpg" type="image/jpeg" />
-        <link rel="apple-touch-icon" href="/favicon-logo.jpg" />
-      </head>
       <body className={inter.className}>
         <Header />
         {children}
