@@ -86,7 +86,7 @@ const ChatSupport = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-4 shadow-lg hover:bg-white/20 transition-all duration-300 group"
+        className="fixed bottom-6 right-6 z-50 bg-black/40 backdrop-blur-md border border-white/20 rounded-full p-4 shadow-lg hover:bg-black/50 transition-all duration-300 group"
       >
         <div className="relative">
           <svg
@@ -102,7 +102,7 @@ const ChatSupport = () => {
               d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
             />
           </svg>
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
+          <span className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-pulse" />
         </div>
       </motion.button>
 

@@ -32,15 +32,15 @@ const projectsByCity: ProjectsByCity = {
       id: 1,
       type: "UPCOMING",
       image: "/images/unity 1.jpg",
-      title: "Unity 1",
-      description: "Luxury Living Redefined",
+      title: "Unity One",
+      description: "Luxury Commercial Space",
       hasImage: true
     },
     {
       id: 2,
       type: "UPCOMING",
       image: "/images/shekhar.jpg",
-      title: "Shikhar",
+      title: "Shekhar",
       description: "Elevating Modern Living",
       hasImage: true
     }

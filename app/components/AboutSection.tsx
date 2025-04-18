@@ -1,12 +1,24 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import DemoPopup from './DemoPopup';
 
 const AboutSection = () => {
   const [showDemoPopup, setShowDemoPopup] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Add a small delay to ensure Hero section is fully loaded
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isLoaded) return null;
 
   return (
     <>

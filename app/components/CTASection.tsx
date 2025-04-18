@@ -147,9 +147,9 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-8 sm:mt-10 md:mt-12 text-center"
+          className="mt-8 sm:mt-10 md:mt-12 text-center max-w-7xl mx-auto"
         >
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <span className="text-sm sm:text-base text-gray-200">Looking for personalized assistance?</span>
             <button 
               onClick={() => setShowDemoPopup(true)}
@@ -162,12 +162,12 @@ const CTASection = () => {
             </button>
           </div>
         </motion.div>
-      </div>
 
-      <DemoPopup 
-        isOpen={showDemoPopup}
-        onClose={() => setShowDemoPopup(false)}
-      />
+        <DemoPopup 
+          isOpen={showDemoPopup}
+          onClose={() => setShowDemoPopup(false)}
+        />
+      </div>
     </section>
   );
 };
